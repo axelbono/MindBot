@@ -1,9 +1,11 @@
 package com.bono.mentalbot.utils
 
+import com.bono.mentalbot.BuildConfig
+
 object Constants {
 
     const val GROQ_BASE_URL = "https://api.groq.com/openai/v1/"
-    const val GROQ_API_KEY = "Bearer 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"
+    val GROQ_API_KEY = "Bearer ${BuildConfig.GROQ_API_KEY}"
     const val MODEL = "llama-3.1-8b-instant"
 
     fun getSystemPrompt(userName: String, mood: String): String {
