@@ -7,7 +7,9 @@ MindBot es una aplicación móvil de bienestar mental desarrollada en Android co
 https://vt.tiktok.com/ZSmTge6LJ/
 
 ## ⬇️ Descarga de la aplicación
-https://axelbono.github.io/MentalBotAPP/
+Opcion 1: https://axelbono.github.io/MentalBotAPP/
+
+Opcion 2: https://ioair.link/98rapq
 
 ---
 
