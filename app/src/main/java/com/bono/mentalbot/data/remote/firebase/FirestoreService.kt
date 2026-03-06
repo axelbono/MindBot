@@ -1,6 +1,7 @@
 package com.bono.mentalbot.data.remote.firebase
 
 import com.bono.mentalbot.domain.model.Message
+import com.bono.mentalbot.domain.model.Technique
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -73,5 +74,53 @@ class FirestoreService {
         val uid = auth.currentUser?.uid ?: return ""
         val doc = db.collection("users").document(uid).get().await()
         return doc.getString("name") ?: ""
+    }
+
+    private fun techniquesCollection() = db
+        .collection("users")
+        .document(auth.currentUser?.uid ?: "anonymous")
+        .collection("techniques")
+
+    suspend fun saveTechnique(technique: Technique) {
+        val doc = techniquesCollection().document()
+        doc.set(
+            mapOf(
+                "id" to doc.id,
+                "title" to technique.title,
+                "description" to technique.description,
+                "category" to technique.category,
+                "mood" to technique.mood,
+                "aiSuggestion" to technique.aiSuggestion,
+                "timestamp" to technique.timestamp
+            )
+        ).await()
+    }
+
+    fun getTechniques(): Flow<List<Technique>> = callbackFlow {
+        val listener = techniquesCollection()
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    close(Exception(error.message))
+                    return@addSnapshotListener
+                }
+                val techniques = snapshot?.documents?.mapNotNull { doc ->
+                    Technique(
+                        id = doc.id,
+                        title = doc.getString("title") ?: "",
+                        description = doc.getString("description") ?: "",
+                        category = doc.getString("category") ?: "",
+                        mood = doc.getString("mood") ?: "",
+                        aiSuggestion = doc.getString("aiSuggestion") ?: "",
+                        timestamp = doc.getLong("timestamp") ?: 0L
+                    )
+                } ?: emptyList()
+                trySend(techniques)
+            }
+        awaitClose { listener.remove() }
+    }
+
+    suspend fun deleteTechnique(id: String) {
+        techniquesCollection().document(id).delete().await()
     }
 }

@@ -17,6 +17,7 @@ import com.bono.mentalbot.ui.auth.NameScreen
 import com.bono.mentalbot.ui.chat.ChatScreen
 import com.bono.mentalbot.ui.history.HistoryScreen
 import com.bono.mentalbot.ui.mood.MoodScreen
+import com.bono.mentalbot.ui.technique.TechniqueScreen
 import com.bono.mentalbot.ui.wellbeing.WellbeingHomeScreen
 import com.bono.mentalbot.ui.wellbeing.WellbeingScreen
 
@@ -87,6 +88,9 @@ fun NavGraph(
                 onGoToEvaluation = {
                     navController.navigate("wellbeing/$mood")
                 },
+                onGoToTechniques = {                              // ← agrega esto
+                    navController.navigate("techniques/$mood")
+                },
                 onChangeMood = {
                     navController.navigate("mood") {
                         popUpTo("wellbeinghome/$mood") { inclusive = true }
@@ -142,6 +146,15 @@ fun NavGraph(
                 onBack = {
                     navController.popBackStack()
                 }
+            )
+        }
+
+        composable("techniques/{mood}") { backStackEntry ->
+            val mood = backStackEntry.arguments?.getString("mood") ?: "neutral"
+            TechniqueScreen(
+                mood = mood,
+                userName = userName,
+                onBack = { navController.popBackStack() }
             )
         }
     }

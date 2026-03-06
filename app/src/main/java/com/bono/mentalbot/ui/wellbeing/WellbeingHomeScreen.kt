@@ -15,8 +15,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
@@ -66,9 +68,11 @@ fun WellbeingHomeScreen(
     mood: String,
     onGoToChat: () -> Unit,
     onGoToEvaluation: () -> Unit,
+    onGoToTechniques: () -> Unit,
     onChangeMood: () -> Unit = {}
 ) {
     val alpha = remember { Animatable(0f) }
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(Unit) {
         alpha.animateTo(targetValue = 1f, animationSpec = tween(800))
@@ -80,6 +84,7 @@ fun WellbeingHomeScreen(
             .background(MaterialTheme.colorScheme.background)
             .padding(20.dp)
             .alpha(alpha.value)
+            .verticalScroll(scrollState)
     ) {
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -173,7 +178,6 @@ fun WellbeingHomeScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Botón actualizar mood
                 TextButton(
                     onClick = onChangeMood,
                     modifier = Modifier
@@ -198,7 +202,7 @@ fun WellbeingHomeScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Cards de acción
+        // Fila 1 — Chat y Evaluación
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -217,7 +221,6 @@ fun WellbeingHomeScreen(
                     .clickable { onGoToChat() }
                     .padding(20.dp)
             ) {
-                // Círculo decorativo
                 Box(
                     modifier = Modifier
                         .size(80.dp)
@@ -225,9 +228,7 @@ fun WellbeingHomeScreen(
                         .background(Color.White.copy(alpha = 0.1f))
                         .align(Alignment.TopEnd)
                 )
-                Column(
-                    modifier = Modifier.align(Alignment.BottomStart)
-                ) {
+                Column(modifier = Modifier.align(Alignment.BottomStart)) {
                     Box(
                         modifier = Modifier
                             .size(40.dp)
@@ -263,7 +264,6 @@ fun WellbeingHomeScreen(
                     .clickable { onGoToEvaluation() }
                     .padding(20.dp)
             ) {
-                // Círculo decorativo
                 Box(
                     modifier = Modifier
                         .size(80.dp)
@@ -271,9 +271,7 @@ fun WellbeingHomeScreen(
                         .background(Purple.copy(alpha = 0.1f))
                         .align(Alignment.TopEnd)
                 )
-                Column(
-                    modifier = Modifier.align(Alignment.BottomStart)
-                ) {
+                Column(modifier = Modifier.align(Alignment.BottomStart)) {
                     Box(
                         modifier = Modifier
                             .size(40.dp)
@@ -299,5 +297,65 @@ fun WellbeingHomeScreen(
                 }
             }
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Fila 2 — Técnicas (card ancha)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(120.dp)
+                .clip(RoundedCornerShape(24.dp))
+                .background(
+                    Brush.horizontalGradient(
+                        colors = listOf(
+                            PurpleLight.copy(alpha = 0.3f),
+                            Purple.copy(alpha = 0.5f)
+                        )
+                    )
+                )
+                .clickable { onGoToTechniques() }
+                .padding(20.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(60.dp)
+                    .clip(CircleShape)
+                    .background(Color.White.copy(alpha = 0.1f))
+                    .align(Alignment.CenterEnd)
+            )
+            Row(
+                modifier = Modifier.align(Alignment.CenterStart),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(RoundedCornerShape(14.dp))
+                        .background(Color.White.copy(alpha = 0.2f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "🌿", fontSize = 24.sp)
+                }
+                Spacer(modifier = Modifier.width(16.dp))
+                Column {
+                    Text(
+                        text = "Técnicas de bienestar",
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Explora y guarda técnicas de relajación y mindfulness.",
+                        color = Color.White.copy(alpha = 0.8f),
+                        fontSize = 12.sp
+                    )
+                }
+            }
+        }
+
+
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
