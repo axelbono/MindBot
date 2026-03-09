@@ -186,9 +186,10 @@ Esta separación permite:
 ---
 
 # PASO A PASO 
-https://drive.google.com/drive/folders/1Mun1NhdZ86GvxzHg-wu0zZhoVMOWZeST?usp=sharing
-Subido a Drive en formato .docx (word) para mejorar la practicidad y legibilidad del manual.
+https://drive.google.com/drive/folders/1Mun1NhdZ86GvxzHg-wu0zZhoVMOWZeST?usp=sharing  
+  Subido a Drive en formato .docx (word) para mejorar la practicidad y legibilidad del manual.
 
+---
 # 📦 Modelos Principales
 
 ## 💬 Chat / Mensajes
