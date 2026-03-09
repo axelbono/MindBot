@@ -17,6 +17,13 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * ViewModel responsable de la lógica del chat con MindBot.
+ *
+ * - Inicializa la conversación y mantiene el historial.
+ * - Envía mensajes al modelo de lenguaje.
+ * - Expone estados de carga y errores para la UI.
+ */
 class ChatViewModel : ViewModel() {
 
     private val retrofit = Retrofit.Builder()
@@ -48,6 +55,13 @@ class ChatViewModel : ViewModel() {
 
     private var chatInitialized = false
 
+    /**
+     * Inicializa la conversación en el repositorio y envía el mensaje inicial del asistente.
+     *
+     * @param userName Nombre del usuario (para personalizar el prompt).
+     * @param mood Estado de ánimo actual.
+     * @param wellbeingContext Contexto adicional generado por la evaluación de bienestar.
+     */
     fun initializeChat(userName: String, mood: String, wellbeingContext: String) {
         if (chatInitialized) return
         chatInitialized = true
@@ -65,6 +79,14 @@ class ChatViewModel : ViewModel() {
         loadMessages()
     }
 
+    /**
+     * Envía un mensaje del usuario a MindBot usando el caso de uso correspondiente.
+     *
+     * Maneja el estado de carga y errores para que la UI pueda mostrar indicaciones.
+     *
+     * @param text Mensaje del usuario.
+     * @param mood Estado de ánimo actual (se envía como contexto al modelo).
+     */
     fun sendMessage(text: String, mood: String) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -84,6 +106,9 @@ class ChatViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Escucha el historial de mensajes y actualiza el estado interno de la UI.
+     */
     private fun loadMessages() {
         viewModelScope.launch {
             getChatHistoryUseCase().collect { messages ->

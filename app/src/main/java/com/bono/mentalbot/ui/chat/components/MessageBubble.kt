@@ -23,6 +23,11 @@ import com.bono.mentalbot.ui.theme.TextPrimary
 import com.bono.mentalbot.ui.theme.TextSecondary
 import com.bono.mentalbot.utils.toFormattedDate
 
+/**
+ * Muestra un mensaje en forma de burbuja de chat.
+ *
+ * @param message Mensaje a mostrar (puede ser del usuario o del asistente).
+ */
 @Composable
 fun MessageBubble(message: Message) {
     val isUser = message.sender == "user"

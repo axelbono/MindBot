@@ -39,6 +39,21 @@ import com.bono.mentalbot.ui.chat.components.MessageBubble
 import com.bono.mentalbot.ui.chat.components.TypingIndicator
 import com.bono.mentalbot.ui.theme.Purple
 
+/**
+ * Pantalla principal del chat con MindBot.
+ *
+ * Muestra el historial de mensajes, permite enviar texto y ofrece opciones de navegación.
+ *
+ * @param mood Estado de ánimo actual para contextualizar la conversación.
+ * @param userName Nombre del usuario (se usa para inicializar el chat).
+ * @param wellbeingContext Contexto adicional generado por la evaluación emocional.
+ * @param isDarkTheme Indica si el tema actual es oscuro.
+ * @param onToggleTheme Callback para alternar entre modo claro/oscuro.
+ * @param onBack Callback para volver a la pantalla anterior.
+ * @param onHistoryClick Callback para mostrar el historial de mensajes.
+ * @param onLogout Callback para cerrar sesión o salir.
+ * @param viewModel ViewModel que gestiona la lógica del chat.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(

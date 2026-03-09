@@ -48,6 +48,18 @@ import com.bono.mentalbot.ui.theme.PurpleLight
 import com.bono.mentalbot.ui.theme.TextSecondary
 import kotlin.math.roundToInt
 
+/**
+ * Pantalla de evaluación emocional donde el usuario completa un breve cuestionario.
+ *
+ * El resultado se usa para construir un contexto que se envía al asistente antes
+ * del chat para personalizar la respuesta.
+ *
+ * @param userName Nombre del usuario (se muestra en el saludo).
+ * @param mood Estado de ánimo actual (se usa para adaptar mensajes y contexto).
+ * @param onBack Callback para volver a la pantalla anterior.
+ * @param onContinue Callback que recibe el contexto generado y continúa al chat.
+ * @param viewModel ViewModel que almacena y actualiza los valores del formulario.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WellbeingScreen(
@@ -247,6 +259,15 @@ fun WellbeingScreen(
     }
 }
 
+/**
+ * Encabezado de sección usado en el formulario de evaluación.
+ *
+ * Muestra un emoji, un título y un subtítulo descriptivo.
+ *
+ * @param emoji Emoji representativo de la sección.
+ * @param title Título principal de la sección.
+ * @param subtitle Texto secundario explicativo.
+ */
 @Composable
 fun SectionHeader(emoji: String, title: String, subtitle: String) {
     Column(
@@ -271,6 +292,13 @@ fun SectionHeader(emoji: String, title: String, subtitle: String) {
     }
 }
 
+/**
+ * Componente de pregunta de escala que permite al usuario puntuar un ítem de 1 a 5.
+ *
+ * @param question Texto de la pregunta.
+ * @param value Valor actual de la escala (1-5).
+ * @param onValueChange Callback para actualizar el valor de la escala.
+ */
 @Composable
 fun ScaleQuestion(
     question: String,
@@ -316,6 +344,15 @@ fun ScaleQuestion(
     }
 }
 
+/**
+ * Componente de pregunta abierta con un campo de texto multi-línea.
+ *
+ * @param question Texto de la pregunta.
+ * @param value Valor actual del campo.
+ * @param onValueChange Callback que se invoca cuando cambia el texto.
+ * @param placeholder Texto de ayuda mostrado cuando el campo está vacío.
+ * @param minLines Mínimo de líneas visibles en el campo de texto.
+ */
 @Composable
 fun OpenQuestion(
     question: String,
@@ -355,6 +392,9 @@ fun OpenQuestion(
     }
 }
 
+/**
+ * Divider personalizado usado para separar secciones en la pantalla de bienestar.
+ */
 @Composable
 fun SectionDivider() {
     Divider(

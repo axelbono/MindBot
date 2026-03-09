@@ -42,6 +42,11 @@ import com.bono.mentalbot.ui.theme.PurpleLight
 import com.bono.mentalbot.ui.theme.TextSecondary
 import java.util.Calendar
 
+/**
+ * Devuelve un saludo según la hora del día.
+ *
+ * @return "Buenos días", "Buenas tardes" o "Buenas noches" según la hora actual.
+ */
 fun getGreeting(): String {
     return when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
         in 0..11 -> "Buenos días"
@@ -50,6 +55,12 @@ fun getGreeting(): String {
     }
 }
 
+/**
+ * Obtiene un emoji representativo del estado de ánimo.
+ *
+ * @param mood Texto con el estado de ánimo (ej. "feliz", "triste").
+ * @return Emoji asociado al estado proporcionado.
+ */
 fun getMoodEmoji(mood: String): String {
     return when (mood.lowercase()) {
         "feliz" -> "😊"
@@ -62,6 +73,19 @@ fun getMoodEmoji(mood: String): String {
     }
 }
 
+/**
+ * Pantalla principal de bienestar que muestra un resumen y accesos directos.
+ *
+ * Permite al usuario navegar rápidamente al chat, evaluación emocional, técnicas y metas.
+ *
+ * @param userName Nombre del usuario mostrado en el saludo.
+ * @param mood Estado de ánimo actual, usado en el badge.
+ * @param onGoToChat Callback para navegar al chat.
+ * @param onGoToEvaluation Callback para iniciar la evaluación emocional.
+ * @param onGoToTechniques Callback para navegar a las técnicas.
+ * @param onGoToGoals Callback para navegar a la sección de metas.
+ * @param onChangeMood Callback opcional para actualizar el estado de ánimo.
+ */
 @Composable
 fun WellbeingHomeScreen(
     userName: String,
@@ -69,6 +93,7 @@ fun WellbeingHomeScreen(
     onGoToChat: () -> Unit,
     onGoToEvaluation: () -> Unit,
     onGoToTechniques: () -> Unit,
+    onGoToGoals: () -> Unit,
     onChangeMood: () -> Unit = {}
 ) {
     val alpha = remember { Animatable(0f) }
@@ -300,61 +325,104 @@ fun WellbeingHomeScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Fila 2 — Técnicas (card ancha)
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(120.dp)
-                .clip(RoundedCornerShape(24.dp))
-                .background(
-                    Brush.horizontalGradient(
-                        colors = listOf(
-                            PurpleLight.copy(alpha = 0.3f),
-                            Purple.copy(alpha = 0.5f)
-                        )
-                    )
-                )
-                .clickable { onGoToTechniques() }
-                .padding(20.dp)
+        // Fila 2 — Técnicas y Metas
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // Card Técnicas
             Box(
                 modifier = Modifier
-                    .size(60.dp)
-                    .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.1f))
-                    .align(Alignment.CenterEnd)
-            )
-            Row(
-                modifier = Modifier.align(Alignment.CenterStart),
-                verticalAlignment = Alignment.CenterVertically
+                    .weight(1f)
+                    .height(150.dp)
+                    .clip(RoundedCornerShape(24.dp))
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                PurpleLight.copy(alpha = 0.4f),
+                                Purple.copy(alpha = 0.6f)
+                            )
+                        )
+                    )
+                    .clickable { onGoToTechniques() }
+                    .padding(20.dp)
             ) {
                 Box(
                     modifier = Modifier
-                        .size(48.dp)
-                        .clip(RoundedCornerShape(14.dp))
-                        .background(Color.White.copy(alpha = 0.2f)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = "🌿", fontSize = 24.sp)
-                }
-                Spacer(modifier = Modifier.width(16.dp))
-                Column {
+                        .size(60.dp)
+                        .clip(CircleShape)
+                        .background(Color.White.copy(alpha = 0.1f))
+                        .align(Alignment.TopEnd)
+                )
+                Column(modifier = Modifier.align(Alignment.BottomStart)) {
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(Color.White.copy(alpha = 0.2f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "🌿", fontSize = 20.sp)
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Técnicas de bienestar",
+                        text = "Técnicas",
                         color = Color.White,
-                        fontSize = 16.sp,
+                        fontSize = 15.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "Explora y guarda técnicas de relajación y mindfulness.",
+                        text = "Relajación y mindfulness.",
                         color = Color.White.copy(alpha = 0.8f),
-                        fontSize = 12.sp
+                        fontSize = 11.sp
+                    )
+                }
+            }
+
+            // Card Metas
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(150.dp)
+                    .clip(RoundedCornerShape(24.dp))
+                    .background(MaterialTheme.colorScheme.surface)
+                    .clickable { onGoToGoals() }
+                    .padding(20.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(CircleShape)
+                        .background(Purple.copy(alpha = 0.1f))
+                        .align(Alignment.TopEnd)
+                )
+                Column(modifier = Modifier.align(Alignment.BottomStart)) {
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(Purple.copy(alpha = 0.2f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "🎯", fontSize = 20.sp)
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Mis metas",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Logra tus objetivos.",
+                        color = TextSecondary,
+                        fontSize = 11.sp
                     )
                 }
             }
         }
-
 
         Spacer(modifier = Modifier.height(24.dp))
     }

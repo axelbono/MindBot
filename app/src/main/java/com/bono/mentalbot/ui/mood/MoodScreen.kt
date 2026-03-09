@@ -46,6 +46,13 @@ import com.bono.mentalbot.ui.theme.MoodTired
 import com.bono.mentalbot.ui.theme.Purple
 import com.bono.mentalbot.ui.theme.TextSecondary
 
+/**
+ * Representa una opción de estado de ánimo que el usuario puede seleccionar.
+ *
+ * @property label Texto que describe el estado de ánimo.
+ * @property emoji Emoji asociado.
+ * @property color Color representativo del estado.
+ */
 data class MoodOption(
     val label: String,
     val emoji: String,
@@ -61,6 +68,15 @@ val moodOptions = listOf(
     MoodOption("Cansado", "😴", MoodTired)
 )
 
+/**
+ * Pantalla donde el usuario selecciona su estado de ánimo actual.
+ *
+ * @param isDarkTheme Indica si la app está en tema oscuro.
+ * @param onToggleTheme Callback para alternar el tema.
+ * @param userName Nombre del usuario, usado para personalizar el saludo.
+ * @param onContinue Callback con el estado de ánimo seleccionado.
+ * @param viewModel ViewModel que gestiona la selección de ánimo.
+ */
 @Composable
 fun MoodScreen(
     isDarkTheme: Boolean,
@@ -187,6 +203,14 @@ fun MoodScreen(
     }
 }
 
+/**
+ * Tarjeta que representa una opción de estado de ánimo seleccionable.
+ *
+ * @param mood Opción de estado de ánimo (emoji + etiqueta + color).
+ * @param isSelected Indica si esta opción está actualmente seleccionada.
+ * @param onClick Callback cuando el usuario selecciona esta opción.
+ * @param modifier Modificador para personalizar la apariencia desde el llamador.
+ */
 @Composable
 fun MoodCard(
     mood: MoodOption,

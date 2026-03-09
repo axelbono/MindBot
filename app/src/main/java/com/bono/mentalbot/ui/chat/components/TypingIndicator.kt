@@ -22,6 +22,9 @@ import androidx.compose.ui.unit.dp
 import com.bono.mentalbot.ui.theme.BubbleBot
 import com.bono.mentalbot.ui.theme.PurpleLight
 
+/**
+ * Indicador animado que simula que el asistente está escribiendo.
+ */
 @Composable
 fun TypingIndicator() {
     val infiniteTransition = rememberInfiniteTransition(label = "typing")

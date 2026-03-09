@@ -45,6 +45,16 @@ import com.bono.mentalbot.ui.theme.BubbleUser
 import com.bono.mentalbot.ui.theme.Purple
 import com.bono.mentalbot.utils.toFormattedDate
 
+/**
+ * Pantalla que muestra el historial completo de mensajes entre el usuario y MindBot.
+ *
+ * Permite borrar todo el historial.
+ *
+ * @param isDarkTheme Indica si el tema actual es oscuro.
+ * @param onToggleTheme Callback para alternar el tema.
+ * @param onBack Callback para volver a la pantalla anterior.
+ * @param viewModel ViewModel que gestiona el historial.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryScreen(
@@ -160,6 +170,11 @@ fun HistoryScreen(
     }
 }
 
+/**
+ * Componente que representa un mensaje dentro del historial.
+ *
+ * @param message Mensaje a mostrar.
+ */
 @Composable
 fun HistoryMessageItem(message: Message) {
     val isUser = message.sender == "user"

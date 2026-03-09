@@ -15,12 +15,21 @@ import com.bono.mentalbot.ui.auth.AuthScreen
 import com.bono.mentalbot.ui.auth.AuthViewModel
 import com.bono.mentalbot.ui.auth.NameScreen
 import com.bono.mentalbot.ui.chat.ChatScreen
+import com.bono.mentalbot.ui.goal.GoalScreen
 import com.bono.mentalbot.ui.history.HistoryScreen
 import com.bono.mentalbot.ui.mood.MoodScreen
 import com.bono.mentalbot.ui.technique.TechniqueScreen
 import com.bono.mentalbot.ui.wellbeing.WellbeingHomeScreen
 import com.bono.mentalbot.ui.wellbeing.WellbeingScreen
 
+/**
+ * Define el grafo de navegación de la aplicación.
+ *
+ * Contiene todas las rutas y parámetros necesarios para moverse entre pantallas.
+ *
+ * @param isDarkTheme Estado actual del tema para pasarlo a las pantallas que lo usan.
+ * @param onToggleTheme Callback para alternar el tema en las pantallas que lo permitan.
+ */
 @Composable
 fun NavGraph(
     isDarkTheme: Boolean,
@@ -88,8 +97,11 @@ fun NavGraph(
                 onGoToEvaluation = {
                     navController.navigate("wellbeing/$mood")
                 },
-                onGoToTechniques = {                              // ← agrega esto
+                onGoToTechniques = {
                     navController.navigate("techniques/$mood")
+                },
+                onGoToGoals = {
+                    navController.navigate("goals")
                 },
                 onChangeMood = {
                     navController.navigate("mood") {
@@ -104,7 +116,7 @@ fun NavGraph(
             WellbeingScreen(
                 userName = userName,
                 mood = mood,
-                onBack = { navController.popBackStack() },   // ← agrega esto
+                onBack = { navController.popBackStack() },
                 onContinue = { wellbeingContext ->
                     navController.navigate("chat/$mood/${Uri.encode(wellbeingContext)}")
                 }
@@ -128,7 +140,7 @@ fun NavGraph(
                 wellbeingContext = wellbeingContext,
                 isDarkTheme = isDarkTheme,
                 onToggleTheme = onToggleTheme,
-                onBack = { navController.popBackStack() },       // ← agrega esto
+                onBack = { navController.popBackStack() },
                 onHistoryClick = { navController.navigate("history") },
                 onLogout = {
                     authViewModel.logout()
@@ -143,9 +155,7 @@ fun NavGraph(
             HistoryScreen(
                 isDarkTheme = isDarkTheme,
                 onToggleTheme = onToggleTheme,
-                onBack = {
-                    navController.popBackStack()
-                }
+                onBack = { navController.popBackStack() }
             )
         }
 
@@ -153,6 +163,13 @@ fun NavGraph(
             val mood = backStackEntry.arguments?.getString("mood") ?: "neutral"
             TechniqueScreen(
                 mood = mood,
+                userName = userName,
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable("goals") {
+            GoalScreen(
                 userName = userName,
                 onBack = { navController.popBackStack() }
             )

@@ -44,6 +44,13 @@ import com.bono.mentalbot.ui.theme.PurpleLight
 import com.bono.mentalbot.ui.theme.TextPrimary
 import com.bono.mentalbot.ui.theme.TextSecondary
 
+/**
+ * Pantalla de autenticación que permite iniciar sesión o registrarse.
+ *
+ * @param onAuthSuccess Callback que se ejecuta cuando el usuario se autentica correctamente.
+ *                       El parámetro indica si es un usuario nuevo.
+ * @param viewModel ViewModel que gestiona la lógica de autenticación.
+ */
 @Composable
 fun AuthScreen(
     onAuthSuccess: (Boolean) -> Unit,

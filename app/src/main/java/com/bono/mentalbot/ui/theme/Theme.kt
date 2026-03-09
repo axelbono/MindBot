@@ -29,6 +29,12 @@ private val LightColorScheme = lightColorScheme(
     onSurface = LightTextPrimary
 )
 
+/**
+ * Tema de la aplicación que aplica una paleta clara u oscura.
+ *
+ * @param isDarkTheme Si es `true` se aplica el tema oscuro, de lo contrario el tema claro.
+ * @param content Composable que se renderiza con el tema aplicado.
+ */
 @Composable
 fun MentalBotTheme(
     isDarkTheme: Boolean = true,

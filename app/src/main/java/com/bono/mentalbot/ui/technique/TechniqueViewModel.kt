@@ -16,6 +16,13 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * ViewModel encargado de gestionar las técnicas de bienestar.
+ *
+ * - Carga técnicas guardadas desde Firestore.
+ * - Genera nuevas técnicas usando la API de Groq (modelo de lenguaje).
+ * - Permite guardar y borrar técnicas en Firestore.
+ */
 class TechniqueViewModel : ViewModel() {
 
     private val retrofit = Retrofit.Builder()
@@ -49,6 +56,9 @@ class TechniqueViewModel : ViewModel() {
         loadTechniques()
     }
 
+    /**
+     * Carga las técnicas almacenadas en Firestore y las expone en [techniques].
+     */
     private fun loadTechniques() {
         viewModelScope.launch {
             firestoreService.getTechniques().collect {
@@ -57,6 +67,12 @@ class TechniqueViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Genera una técnica de bienestar usando el modelo de lenguaje (Groq/OpenAI).
+     *
+     * @param mood Estado de ánimo actual del usuario, usado para contextualizar la técnica.
+     * @param userName Nombre del usuario (actualmente no se usa en el prompt, pero se puede extender).
+     */
     fun generateTechnique(mood: String, userName: String) {
         viewModelScope.launch {
             _isGenerating.value = true
@@ -97,6 +113,14 @@ class TechniqueViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Guarda una técnica creada manualmente por el usuario en Firestore.
+     *
+     * @param title Título de la técnica.
+     * @param description Descripción de la técnica.
+     * @param category Categoría de la técnica (ej. Respiración, Mindfulness).
+     * @param mood Estado de ánimo asociado.
+     */
     fun saveTechnique(title: String, description: String, category: String, mood: String) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -117,6 +141,9 @@ class TechniqueViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Elimina una técnica identificada por su ID.
+     */
     fun deleteTechnique(id: String) {
         viewModelScope.launch {
             try {
@@ -127,6 +154,12 @@ class TechniqueViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Parsea el texto crudo retornado por el modelo para extraer los campos de técnica.
+     *
+     * El texto debe seguir un formato específico con prefijos como "TITULO:",
+     * "CATEGORIA:", "DESCRIPCION:" y "PASOS:".
+     */
     private fun parseTechnique(raw: String, mood: String): Technique {
         val lines = raw.lines()
         var title = "Técnica de bienestar"

@@ -31,6 +31,13 @@ import com.bono.mentalbot.ui.theme.Purple
 import com.bono.mentalbot.ui.theme.TextPrimary
 import com.bono.mentalbot.ui.theme.TextSecondary
 
+/**
+ * Barra de entrada de texto para el chat con botón de envío.
+ *
+ * @param text Texto actual del campo.
+ * @param onTextChange Callback cuando cambia el texto.
+ * @param onSend Callback cuando se pulsa el botón de enviar o se presiona "Enter".
+ */
 @Composable
 fun InputBar(
     text: String,

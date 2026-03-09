@@ -1,15 +1,43 @@
 package com.bono.mentalbot.utils
 
 import com.bono.mentalbot.BuildConfig
+
+/**
+ * Constantes globales usadas en la comunicación con la API de Groq/OpenAI y en la
+ * configuración inicial del asistente conversacional.
+ *
+ * Estas constantes se usan para construir solicitudes al modelo de lenguaje y para
+ * generar mensajes iniciales que personalizan la experiencia según el usuario.
+ */
 object Constants {
 
+    /**
+     * URL base para las llamadas a la API de Groq/OpenAI.
+     */
     const val GROQ_BASE_URL = "https://api.groq.com/openai/v1/"
 
-    // Asegúrate de que tenga el espacio después de Bearer
+    /**
+     * Clave API (Bearer) usada para autenticar las peticiones.
+     *
+     * Importante: el valor se construye con un espacio después de "Bearer".
+     */
     val GROQ_API_KEY = "Bearer ${BuildConfig.GROQ_API_KEY}"
 
+    /**
+     * Identificador del modelo de lenguaje utilizado para generar respuestas.
+     */
     const val MODEL = "llama-3.1-8b-instant"
 
+    /**
+     * Genera el prompt del sistema que se envía al modelo de lenguaje.
+     *
+     * El prompt define el rol de MindBot, su estilo de respuesta y las reglas de
+     * seguridad que debe seguir (evitar diagnósticos, priorizar la seguridad, etc.).
+     *
+     * @param userName Nombre del usuario para personalizar el saludo y las instrucciones.
+     * @param mood Estado emocional actual del usuario para adaptar la sugerencia de tono.
+     * @return Texto completo que se incluirá en la petición al modelo como "system" prompt.
+     */
     fun getSystemPrompt(userName: String, mood: String): String {
         return """
 Eres MindBot, un asistente de apoyo emocional empático y seguro.
@@ -37,6 +65,17 @@ Tu objetivo es que $userName se sienta escuchado, comprendido y acompañado.
 """.trimIndent()
     }
 
+    /**
+     * Genera el mensaje inicial que se muestra cuando el usuario comienza la interacción.
+     *
+     * Este mensaje varía según el estado de ánimo reportado y si hay un contexto de
+     * bienestar disponible (por ejemplo, después de una evaluación de bienestar).
+     *
+     * @param userName Nombre del usuario para personalizar el saludo.
+     * @param mood Estado emocional actual (ej. "triste", "ansioso").
+     * @param hasWellbeingContext Indica si se dispone de contexto adicional de bienestar.
+     * @return Mensaje de bienvenida personalizado para el usuario.
+     */
     fun getInitialMessage(
         userName: String,
         mood: String,

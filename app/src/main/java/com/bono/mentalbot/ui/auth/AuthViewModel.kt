@@ -12,6 +12,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
+/**
+ * ViewModel encargado de la autenticación de usuarios con Firebase Auth.
+ *
+ * Gestiona el estado de carga, errores y el almacenamiento local de la sesión.
+ */
 class AuthViewModel(context: Context) : ViewModel() {
 
     private val auth = FirebaseAuth.getInstance()
@@ -50,12 +55,20 @@ class AuthViewModel(context: Context) : ViewModel() {
         }
     }
 
+    /**
+     * Alterna la preferencia de recordar la sesión y la persiste en SharedPreferences.
+     */
     fun toggleRememberSession() {
         val newValue = !_rememberSession.value
         _rememberSession.value = newValue
         prefs.edit().putBoolean("remember_session", newValue).apply()
     }
 
+    /**
+     * Intenta iniciar sesión con correo y contraseña usando Firebase Auth.
+     *
+     * Actualiza los estados de carga, autenticación y errores para la UI.
+     */
     fun login(email: String, password: String) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -78,6 +91,11 @@ class AuthViewModel(context: Context) : ViewModel() {
         }
     }
 
+    /**
+     * Crea una nueva cuenta con correo y contraseña usando Firebase Auth.
+     *
+     * Si la operación es exitosa, se marca al usuario como nuevo y autenticado.
+     */
     fun register(email: String, password: String) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -98,6 +116,9 @@ class AuthViewModel(context: Context) : ViewModel() {
         }
     }
 
+    /**
+     * Cierra la sesión del usuario y borra el estado local asociado.
+     */
     fun logout() {
         auth.signOut()
         _isAuthenticated.value = false
@@ -107,6 +128,9 @@ class AuthViewModel(context: Context) : ViewModel() {
         prefs.edit().putBoolean("remember_session", false).apply()
     }
 
+    /**
+     * Guarda el nombre del usuario en Firestore.
+     */
     fun saveUserName(name: String) {
         viewModelScope.launch {
             firestoreService.saveUserName(name)
@@ -114,6 +138,9 @@ class AuthViewModel(context: Context) : ViewModel() {
         }
     }
 
+    /**
+     * Carga el nombre del usuario desde Firestore y lo expone en [userName].
+     */
     fun loadUserName() {
         viewModelScope.launch {
             _userName.value = firestoreService.getUserName()
@@ -121,6 +148,9 @@ class AuthViewModel(context: Context) : ViewModel() {
     }
 
     companion object {
+        /**
+         * Fábrica para crear el ViewModel con el contexto necesario.
+         */
         fun factory(context: Context): ViewModelProvider.Factory {
             return object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {

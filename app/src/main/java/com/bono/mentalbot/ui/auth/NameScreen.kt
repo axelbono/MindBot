@@ -29,6 +29,11 @@ import androidx.compose.ui.unit.sp
 import com.bono.mentalbot.ui.theme.Purple
 import com.bono.mentalbot.ui.theme.TextSecondary
 
+/**
+ * Pantalla para solicitar el nombre del usuario al iniciar por primera vez.
+ *
+ * @param onNameSaved Callback con el nombre ingresado cuando el usuario continúa.
+ */
 @Composable
 fun NameScreen(
     onNameSaved: (String) -> Unit
