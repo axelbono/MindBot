@@ -86,25 +86,76 @@ El proyecto sigue una arquitectura inspirada en **Clean Architecture** utilizand
 MentalBot/
 │
 ├── data/
+│   │
 │   ├── remote/
-│   ├── repository/
+│   │   ├── api/
+│   │   │   └── GroqApiService.kt
+│   │   │
+│   │   └── firebase/
+│   │       └── FirestoreService.kt
+│   │
+│   ├── model/
+│   │   ├── ChatRequest.kt
+│   │   └── ChatResponse.kt
+│   │
+│   └── repository/
+│       └── ChatRepository.kt
 │
 ├── domain/
+│   │
 │   ├── model/
-│   ├── usecase/
+│   │   ├── Goal.kt
+│   │   ├── Message.kt
+│   │   └── Technique.kt
+│   │
+│   └── usecase/
+│       ├── GetChatHistoryUseCase.kt
+│       └── SendMessageUseCase.kt
 │
 ├── ui/
-│   ├── components/
-│   ├── screens/
-│   │   ├── chat/
-│   │   ├── login/
-│   │   ├── mood/
-│   │   ├── wellness/
+│   │
+│   ├── auth/
+│   │   ├── AuthScreen.kt
+│   │   ├── AuthViewModel.kt
+│   │   └── NameScreen.kt
+│   │
+│   ├── chat/
+│   │   ├── components/
+│   │   ├── ChatScreen.kt
+│   │   └── ChatViewModel.kt
+│   │
+│   ├── goal/
+│   │   ├── GoalScreen.kt
+│   │   └── GoalViewModel.kt
+│   │
+│   ├── history/
+│   │   ├── HistoryScreen.kt
+│   │   └── HistoryViewModel.kt
+│   │
+│   ├── mood/
+│   │   ├── MoodScreen.kt
+│   │   └── MoodViewModel.kt
+│   │
+│   ├── technique/
+│   │   ├── TechniqueScreen.kt
+│   │   └── TechniqueViewModel.kt
+│   │
+│   ├── wellbeing/
+│   │   ├── WellbeingHomeScreen.kt
+│   │   ├── WellbeingScreen.kt
+│   │   └── WellbeingViewModel.kt
 │   │
 │   ├── navigation/
-│   ├── viewmodel/
+│   │   └── NavGraph.kt
+│   │
+│   └── theme/
+│       ├── Color.kt
+│       ├── Theme.kt
+│       └── Type.kt
 │
 ├── utils/
+│   ├── Constants.kt
+│   └── Extensions.kt
 │
 └── MainActivity.kt
 ```
